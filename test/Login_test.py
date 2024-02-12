@@ -8,14 +8,17 @@ class TestClass(BaseTest):
     username_locator = (By.XPATH, "//input[@id = 'user-name'] ")
     password_locator = (By.XPATH, "// input[@name ='password']")
     lgn_btn_locator = (By.ID, "login-button")
+    error_button = (By.XPATH, "//h3[@data-test='error']")
 
     def test_login_with_valid_credentials(self):
         self.wait.until(EC.presence_of_element_located(self.username_locator)).send_keys("standard_user")
         self.wait.until(EC.presence_of_element_located(self.password_locator)).send_keys("secret_sauce")
         self.wait.until(EC.element_to_be_clickable(self.lgn_btn_locator)).click()
+        assert self.driver.title == "Swag Labs"
 
 
     def test_login_with_locked_out_user(self):
         self.wait.until(EC.presence_of_element_located(self.username_locator)).send_keys("locked_out_user")
         self.wait.until(EC.presence_of_element_located(self.password_locator)).send_keys("secret_sauce")
         self.wait.until(EC.element_to_be_clickable(self.lgn_btn_locator)).click()
+        assert self.driver.find_element(self.error_button).is_displayed()

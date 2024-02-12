@@ -7,6 +7,7 @@ import time
 def setup(request):
     driver = webdriver.Chrome()
     driver.get("https://www.saucedemo.com/v1/")
+    driver.implicitly_wait(10)
     wait = WebDriverWait(driver, 20)
     request.cls.driver = driver
     request.cls.wait = wait
